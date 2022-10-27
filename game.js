@@ -183,9 +183,6 @@ class TebakKata {
       // Jika benar semua
       if (corrects === this.inputs.length) {
         message = 'Wow, benar semua!'
-
-        // Lanjut ke kata berikutnya (soal berikutnya)
-        this.nextKata()
       }
     }
 
@@ -199,6 +196,12 @@ class TebakKata {
         progressContainer.style.color = '#ff4558'
         message = 'Yah, salah semua 😭'
       }
+    }
+
+    // Jika semua input telah terisi
+    if ((corrects + wrongs) === this.inputs.length) {
+      // Lanjut ke kata berikutnya (soal berikutnya)
+      this.nextKata()
     }
 
     // Menampilkan progress
@@ -240,6 +243,8 @@ class TebakKata {
     const nextIndex = this.startNum
     const data = this.data
 
+    this.countDown = 5000
+
     // Jika nextIndex < jumlah soal
     if (nextIndex < data.length) {
       setTimeout(() => {
@@ -274,18 +279,20 @@ class TebakKata {
     let i = this.countDown / 1000
     countDownContainer.innerHTML = i--
 
-    setInterval(() => {
+    const interval = setInterval(() => {
       countDownContainer.innerHTML = i--
     }, 1000)
 
     setTimeout(() => {
       countDownContainer.style.display = 'none'
+      clearInterval(interval)
+      i = this.countDown / 1000
     }, this.countDown)
   }
 }
 
 // Init
-;(async () => {
+; (async () => {
   const level = 1
   const data = await fetch(`/kata/${level}.json`).then((res) => res.json())
 
