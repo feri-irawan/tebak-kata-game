@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tebak Kata</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+      crossorigin="anonymous"
+    />
+
+    <style>
+      body {
+        padding: 8rem 1rem 1rem;
+        background: #333;
+        color: #888;
+        font-size: 1.2rem;
+        font-family: Monospace;
+      }
+
+      #inputContainer {
+        display: flex;
+        flex-flow: wrap;
+        justify-content: center;
+        align-items: center;
+        margin-top: 3rem;
+      }
+
+      #inputContainer input {
+        --size: 2.5rem;
+        display: inline-block;
+        text-align: center;
+        width: var(--size);
+        height: var(--size);
+        border: none;
+        border: 2px solid transparent;
+        border-bottom-color: #555;
+        margin: 0.25rem;
+        text-transform: uppercase;
+        max-width: max-content;
+        font-weight: bold;
+        outline: none;
+        background: transparent;
+        color: #fff;
+      }
+
+      .correct {
+        --color: #44ff00;
+        color: var(--color) !important;
+        border-bottom-color: var(--color) !important;
+      }
+
+      .wrongPosition {
+        --color: orange;
+        color: var(--color) !important;
+        border-bottom-color: var(--color) !important;
+      }
+
+      .wrong {
+        --color: #ff4558;
+        color: var(--color) !important;
+        border-bottom-color: var(--color) !important;
+      }
+
+      .alert {
+        display: none;
+        margin-top: 2rem;
+      }
+
+      footer {
+        font-size: 1rem;
+        margin-top: 10rem;
+      }
+    </style>
+  </head>
+  <body class="text-center">
+    <div class="container mx-auto">
+      <h1 class="text-warning mb-4 fw-bold">Tebak Kata</h1>
+      <p id="clue">Negara terbesar di dunia.</p>
+      <div data-word="rusia" id="inputContainer"></div>
+      <p class="alert"></p>
+    </div>
+
+    <footer class="text-center">Made with ❤️ by Feri Irawan</footer>
+
+    <script>
+      const inputContainer = document.getElementById("inputContainer");
+      const word = inputContainer.dataset.word;
+
+      // Membuat input
+      const wordInputs = word
+        .split("")
+        .map((v) => `<input type="text" maxlength="1">`);
+
+      wordInputs.map((input) => {
+        inputContainer.innerHTML += input;
+      });
+
+      // Cek jawaban
+      const inputs = document.querySelectorAll("#inputContainer input");
+      inputs.forEach((input, i) => {
+        input.onkeyup = (e) => {
+          // Backspace handling
+          if (e.keyCode === 8) return;
+
+          // Check answer
+          answerCheck(input, i);
+
+          // Alert
+          alertMessage();
+        };
+      });
+
+      function answerCheck(input, i) {
+        const v = input.value.toLowerCase();
+
+        if (v.length > 1) {
+          input.value = v[0];
+          return;
+        }
+
+        if (v === word[i].toLowerCase()) {
+          input.classList.add("correct");
+        } else if (v !== word[i] && word.includes(v)) {
+          input.classList.add("wrongPosition");
+        } else {
+          input.classList.add("wrong");
+        }
+
+        // Jika input telah diisi
+        input.setAttribute("disabled", "");
+
+        // Pindah ke input berikutnya
+        if (i !== inputs.length - 1) inputs[i + 1].focus();
+      }
+
+      function alertMessage() {
+        const correctLength = document.getElementsByClassName("correct").length;
+        const wrongLength = document.getElementsByClassName("wrong").length;
+        const al = document.querySelector(".alert");
+
+        al.style.display = "block";
+        al.style.color = "#44ff00";
+
+        if (correctLength > 0) {
+          al.innerHTML = "Benar!";
+        }
+
+        if (correctLength > 1) {
+          al.innerHTML = "Mantap!";
+        }
+
+        if (correctLength >= Math.round(word.length / 2)) {
+          al.innerHTML = "Luar biasa!";
+        }
+
+        if (correctLength === word.length) {
+          al.innerHTML = "Wow benar semua!";
+        }
+
+        if (wrongLength) {
+          al.style.color = "currentColor";
+          al.innerHTML =
+            wrongLength === word.length
+              ? "Yah.. salah semua :("
+              : correctLength > 0
+              ? `${correctLength} huruf benar, ${wrongLength} huruf salah.`
+              : `${wrongLength} huruf salah.`;
+        }
+      }
+
+      function log(n) {
+        console.log(n);
+      }
+    </script>
+  </body>
+</html>
