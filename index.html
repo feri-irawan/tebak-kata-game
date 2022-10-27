@@ -13,17 +13,17 @@
 
     <style>
       body {
-        padding: 8rem 1rem 1rem;
+        padding: 5rem 1rem 1rem;
         background: #333;
         color: #888;
         font-size: 1rem;
         font-family: Monospace;
       }
 
-      #clue {
-        color: #999;
+      #clueContainer {
+        color: #fff;
         font-size: 1.2rem;
-        margin-bottom: 2rem;
+        margin: 2rem 0;
       }
 
       #inputContainer {
@@ -31,7 +31,7 @@
         flex-flow: wrap;
         justify-content: center;
         align-items: center;
-        margin-top: 3rem;
+        margin: 3rem 0;
       }
 
       #inputContainer input {
@@ -65,138 +65,75 @@
         border-bottom-color: var(--color) !important;
       }
 
-      .alert {
+      #progressContainer {
         display: none;
         margin-top: 2rem;
+      }
+
+      #healtsContainer {
+        position: fixed;
+        top: 0;
+        right: 0;
+        padding: 1rem 1rem 0 0;
+      }
+
+      #healtsContainer > span {
+        display: inline-block;
+        margin: 0.2rem;
       }
 
       .game-over {
         font-size: 2rem;
         color: #ff4558;
+        margin: 4rem 0;
+      }
+
+      .game-ended {
+        font-size: 1.6rem;
+        margin: 2rem 0;
+      }
+
+      #countDownContainer {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: #333;
+        display: none;
+        font-size: 5rem;
+        color: #ffc107;
+        align-items: center;
+        justify-content: center;
       }
 
       footer {
         margin-top: 10rem;
+        font-size: 0.9rem;
       }
     </style>
   </head>
   <body class="text-center">
     <div class="container mx-auto">
       <h1 class="text-warning mb-4 fw-bold">Tebak Kata</h1>
-      <p id="clue"></p>
-      <p>Jawaban bisa berupa sinonim, antonim, atau fakta.</p>
-      <div id="inputContainer"></div>
-      <p class="alert"></p>
-      <div id="healts"></div>
+
+      <main>
+        <div class="info">
+          Jawaban bisa berupa sinonim, antonim, atau fakta.
+        </div>
+
+        <div id="countDownContainer"></div>
+
+        <div id="clueContainer"></div>
+        <div id="inputContainer"></div>
+        <div id="progressContainer"></div>
+      </main>
+
+      <div id="healtsContainer"></div>
     </div>
 
     <footer class="text-center">Made with ❤️ by Feri Irawan</footer>
 
-    <script>
-      const clue = 'Ada ayam lima, di kali dua. Berapa semuanya?'
-      const answer = 'lima'
-      const healtsLength = 3
-
-      const clueContainer = (document.getElementById('clue').innerHTML = clue)
-      const inputContainer = document.getElementById('inputContainer')
-      const word = answer
-      const healtsContainer = document.getElementById('healts')
-
-      // Membuat input
-      const wordInputs = word
-        .split('')
-        .map((v) => `<input type="text" maxlength="1">`)
-
-      // Membuat healts
-      healtsContainer.innerHTML = `${healtsLength} kesempatan lagi`
-
-      wordInputs.map((input) => {
-        inputContainer.innerHTML += input
-      })
-
-      // Cek jawaban
-      const inputs = document.querySelectorAll('#inputContainer input')
-      inputs.forEach((input, i) => {
-        input.onkeyup = (e) => {
-          // Backspace handling
-          if (e.keyCode === 8) return
-
-          // Check answer
-          answerCheck(input, i)
-
-          // Alert
-          alertMessage()
-        }
-      })
-
-      function answerCheck(input, i) {
-        const v = input.value.toLowerCase()
-        const wrongLength = document.getElementsByClassName('wrong').length
-
-        if (v.length > 1) {
-          input.value = v[0]
-          return
-        }
-
-        if (v === word[i].toLowerCase()) {
-          input.classList.remove('wrong')
-          input.classList.add('correct')
-        } else {
-          input.classList.remove('correct')
-          input.classList.add('wrong')
-          healtsContainer.innerHTML = `${
-            healtsLength - wrongLength
-          } kempatan lagi`
-        }
-
-        // Jika input telah diisi
-        input.setAttribute('disabled', '')
-
-        // Pindah ke input berikutnya
-        if (i !== inputs.length - 1) inputs[i + 1].focus()
-
-        if (healtsLength - wrongLength <= 0)
-          inputContainer.innerHTML = `<div class="game-over">Game Over.</div>`
-      }
-
-      function alertMessage() {
-        const correctLength = document.getElementsByClassName('correct').length
-        const wrongLength = document.getElementsByClassName('wrong').length
-        const al = document.querySelector('.alert')
-
-        al.style.display = 'block'
-        al.style.color = '#44ff00'
-
-        if (correctLength > 0) {
-          al.innerHTML = 'Benar!'
-        }
-
-        if (correctLength > 1) {
-          al.innerHTML = 'Mantap!'
-        }
-
-        if (correctLength >= Math.round(word.length / 2)) {
-          al.innerHTML = 'Luar biasa!'
-        }
-
-        if (correctLength === word.length) {
-          al.innerHTML = 'Wow benar semua!'
-        }
-
-        if (wrongLength || healtsLength - wrongLength <= 0) {
-          al.style.color = 'currentColor'
-          al.innerHTML =
-            wrongLength === word.length
-              ? 'Yah.. salah semua :('
-              : correctLength > 0
-              ? `${correctLength} huruf benar, ${wrongLength} huruf salah.`
-              : `${wrongLength} huruf salah.`
-        }
-      }
-
-      function log(n) {
-        console.log(n)
-      }
-    </script>
+    <script src="./game.js"></script>
   </body>
 </html>
