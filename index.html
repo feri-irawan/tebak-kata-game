@@ -93,27 +93,23 @@
     <footer class="text-center">Made with ❤️ by Feri Irawan</footer>
 
     <script>
-      const clue ='Ada ayam lima, di kali dua. Berapa semuanya?'
+      const clue = 'Ada ayam lima, di kali dua. Berapa semuanya?'
       const answer = 'lima'
       const healtsLength = 3
 
-
-
-
-
-      const clueContainer = document.getElementById('clue').innerHTML = clue
+      const clueContainer = (document.getElementById('clue').innerHTML = clue)
       const inputContainer = document.getElementById('inputContainer')
       const word = answer
       const healtsContainer = document.getElementById('healts')
-      
+
       // Membuat input
       const wordInputs = word
         .split('')
         .map((v) => `<input type="text" maxlength="1">`)
 
-// Membuat healts
-healtsContainer.innerHTML = `${healtsLength} kesempatan lagi`
-  
+      // Membuat healts
+      healtsContainer.innerHTML = `${healtsLength} kesempatan lagi`
+
       wordInputs.map((input) => {
         inputContainer.innerHTML += input
       })
@@ -135,8 +131,8 @@ healtsContainer.innerHTML = `${healtsLength} kesempatan lagi`
 
       function answerCheck(input, i) {
         const v = input.value.toLowerCase()
-const wrongLength = document.getElementsByClassName('wrong').length
-        
+        const wrongLength = document.getElementsByClassName('wrong').length
+
         if (v.length > 1) {
           input.value = v[0]
           return
@@ -148,17 +144,19 @@ const wrongLength = document.getElementsByClassName('wrong').length
         } else {
           input.classList.remove('correct')
           input.classList.add('wrong')
-healtsContainer.innerHTML = `${healtsLength - wrongLength} kempatan lagi`
+          healtsContainer.innerHTML = `${
+            healtsLength - wrongLength
+          } kempatan lagi`
         }
 
         // Jika input telah diisi
         input.setAttribute('disabled', '')
 
-        
         // Pindah ke input berikutnya
         if (i !== inputs.length - 1) inputs[i + 1].focus()
-      
-      if(healtsLength - wrongLength <=0) inputContainer.innerHTML = `<div class="game-over">Game Over.</div>`
+
+        if (healtsLength - wrongLength <= 0)
+          inputContainer.innerHTML = `<div class="game-over">Game Over.</div>`
       }
 
       function alertMessage() {
@@ -185,7 +183,7 @@ healtsContainer.innerHTML = `${healtsLength - wrongLength} kempatan lagi`
           al.innerHTML = 'Wow benar semua!'
         }
 
-        if (wrongLength||healtsLength - wrongLength <=0) {
+        if (wrongLength || healtsLength - wrongLength <= 0) {
           al.style.color = 'currentColor'
           al.innerHTML =
             wrongLength === word.length
