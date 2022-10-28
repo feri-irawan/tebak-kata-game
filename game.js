@@ -27,7 +27,7 @@ class TebakKata {
     this.healts = healts
     this.progressContainer = document.querySelector(progressContainer)
     this.healtsContainer = document.querySelector(healtsContainer)
-    this.startNum = startNum - 1
+    this.startNum = startNum
     this.startNumContainer = document.querySelector(startNumContainer)
     this.countDown = countDown
     this.countDownContainer = document.querySelector(countDownContainer)
@@ -43,10 +43,19 @@ class TebakKata {
 
   /**
    * Menampilkan nomor soal
+   * @param {boolean} next
    */
-  setStartNum() {
-    if (!localStorage.getItem('startNum'))
+  setStartNum(next) {
+    // Simpan startNum di local storage
+    localStorage.setItem('startNum', this.startNum)
+
+    // Jika next === true, maka tambahkan startNum + 1
+    if (next) {
+      this.startNum++
       localStorage.setItem('startNum', this.startNum)
+    }
+
+    // Tampilkan startNum ke element
     this.startNumContainer.innerHTML = '#' + (this.startNum + 1)
   }
 
@@ -288,9 +297,7 @@ class TebakKata {
    * @returns
    */
   nextKata() {
-    this.startNum++
-
-    this.setStartNum()
+    this.setStartNum(true)
 
     const nextIndex = this.startNum
     const data = this.data
@@ -345,13 +352,16 @@ class TebakKata {
 
 // Init
 ;(async () => {
+  // Jumlah level yang akan di fetch
   const levelLength = 5
 
+  // Fetcher
   const fetchKata = (level) =>
     fetch(`./kata/${level}.json`)
       .then((res) => res.json())
       .catch(console.error)
 
+  // Mapping data
   const data = (
     await Promise.all(
       Array(levelLength)
@@ -360,14 +370,19 @@ class TebakKata {
     )
   ).flat()
 
+  // Mendapatkan query string
   const params = new Proxy(new URLSearchParams(window.location.search), {
     get: (searchParams, prop) => searchParams.get(prop)
   })
-  console.log(localStorage.getItem('startNum'))
 
+  // Start number
+  const latestNum = Number(localStorage.getItem('startNum'))
+  const startNum = params?.start ? params.start - 1 : latestNum
+
+  // Init game class
   const game = new TebakKata('#inputContainer', {
     data,
-    startNum: params?.start || 1,
+    startNum,
     startNumContainer: '#startNumContainer',
     clueContainer: '#clueContainer',
     healts: 3,
