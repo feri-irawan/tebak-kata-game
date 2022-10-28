@@ -358,7 +358,13 @@ class TebakKata {
       clearInterval(interval)
 
       // Jika query string tidak kosong (ada query start), aka hapus query string
-      if (location.search.trim()) location.search = ''
+      const url = new URL(window.location.href)
+      if (url.searchParams.get('start')) {
+        url.searchParams.delete('start')
+        const newUrl = url.href
+
+        window.history.pushState({ path: newUrl }, '', newUrl)
+      }
 
       // Reset nilai i ke awal
       i = this.countDown / 1000
