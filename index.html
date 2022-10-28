@@ -70,6 +70,16 @@
         margin-top: 2rem;
       }
 
+      #ifGameOverContainer {
+        display: none;
+      }
+
+      #ifGameOverContainer h1 {
+        font-size: 2rem;
+        color: #ff4558;
+        margin: 4rem 0rem 2rem;
+      }
+
       #startNumContainer {
         position: fixed;
         top: 0;
@@ -90,12 +100,6 @@
       #healtsContainer > span {
         display: inline-block;
         margin: 0.2rem;
-      }
-
-      .game-over {
-        font-size: 2rem;
-        color: #ff4558;
-        margin: 4rem 0;
       }
 
       .game-ended {
@@ -137,6 +141,11 @@
         <div id="clueContainer"></div>
         <div id="inputContainer"></div>
         <div id="progressContainer"></div>
+
+        <div id="ifGameOverContainer">
+          <h1>Game Over!</h1>
+          <p>Silakan refresh halaman untuk mencoba lagi</p>
+        </div>
       </main>
 
       <div id="startNumContainer"></div>

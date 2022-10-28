@@ -2,7 +2,7 @@ class TebakKata {
   /**
    * Constructor
    * @param {string} inputContainer
-   * @param {{data: object[], healts: number, clueContainer: string, progressContainer: string, healtsContainer: string, startNum: number, startNumCountainer: string, countDown: number, countDownContainer: string, nextDelay: number}} options
+   * @param {{data: object[], healts: number, clueContainer: string, progressContainer: string, healtsContainer: string, startNum: number, startNumCountainer: string, countDown: number, countDownContainer: string, nextDelay: number, ifGameOverContainer: string}} options
    */
   constructor(
     inputContainer,
@@ -16,7 +16,8 @@ class TebakKata {
       startNumContainer,
       countDown,
       countDownContainer,
-      nextDelay
+      nextDelay,
+      ifGameOverContainer
     }
   ) {
     this.inputContainer = document.querySelector(inputContainer)
@@ -32,6 +33,7 @@ class TebakKata {
     this.countDown = countDown
     this.countDownContainer = document.querySelector(countDownContainer)
     this.nextDelay = nextDelay
+    this.ifGameOverContainer = document.querySelector(ifGameOverContainer)
 
     this.setStartNum()
     this.setData()
@@ -285,10 +287,7 @@ class TebakKata {
       this.inputContainer.style.display = 'none'
       this.progressContainer.style.display = 'none'
 
-      const gameOver = document.createElement('div')
-      gameOver.classList.add('game-over')
-      gameOver.innerHTML = 'Game Over!'
-      this.inputContainer.after(gameOver)
+      this.ifGameOverContainer.style.display = 'block'
     }
   }
 
@@ -390,6 +389,7 @@ class TebakKata {
     progressContainer: '#progressContainer',
     countDown: 5000,
     countDownContainer: '#countDownContainer',
-    nextDelay: 2000
+    nextDelay: 2000,
+    ifGameOverContainer: '#ifGameOverContainer'
   })
 })()
