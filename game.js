@@ -93,6 +93,7 @@ class TebakKata {
    */
   enabledKeyboard(event) {
     const { keyCode } = event
+    const keyValue = event.target.value
 
     // Daftar keyCode yang diperbolehkan
     const numberKeyCode = [48, 49, 50, 51, 52, 53, 54, 55, 56, 57] // 0 - 9
@@ -101,9 +102,45 @@ class TebakKata {
       84, 85, 86, 87, 88, 89, 90
     ] // a - z
 
-    const whiteList = [numberKeyCode, alphabetKeyCode].flat()
+    const keyCodeWhiteList = [numberKeyCode, alphabetKeyCode].flat()
+    const checkKey = keyCodeWhiteList.includes(keyCode) ? true : false
 
-    return whiteList.includes(keyCode) ? true : false
+    // Daftar value yang diperbolehkan
+    const number = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    const alphabet = [
+      'A',
+      'B',
+      'C',
+      'D',
+      'E',
+      'F',
+      'G',
+      'H',
+      'I',
+      'J',
+      'K',
+      'L',
+      'M',
+      'N',
+      'O',
+      'P',
+      'Q',
+      'R',
+      'S',
+      'T',
+      'U',
+      'V',
+      'W',
+      'X',
+      'Y',
+      'Z'
+    ]
+    const alphaNumericWhiteList = [number, alphabet].flat()
+    const checkAlphaNumeric = alphaNumericWhiteList.includes(keyValue)
+      ? true
+      : false
+
+    return checkKey || checkAlphaNumeric
   }
 
   /**
@@ -199,7 +236,7 @@ class TebakKata {
     }
 
     // Jika semua input telah terisi
-    if ((corrects + wrongs) === this.inputs.length) {
+    if (corrects + wrongs === this.inputs.length) {
       // Lanjut ke kata berikutnya (soal berikutnya)
       this.nextKata()
     }
@@ -292,9 +329,9 @@ class TebakKata {
 }
 
 // Init
-; (async () => {
+;(async () => {
   const level = 1
-  const data = await fetch(`/kata/${level}.json`).then((res) => res.json())
+  const data = await fetch(`./kata/${level}.json`).then((res) => res.json())
 
   const game = new TebakKata('#inputContainer', {
     data,

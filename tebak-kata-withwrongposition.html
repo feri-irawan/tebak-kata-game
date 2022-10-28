@@ -86,93 +86,93 @@
     <footer class="text-center">Made with ❤️ by Feri Irawan</footer>
 
     <script>
-      const inputContainer = document.getElementById("inputContainer");
-      const word = inputContainer.dataset.word;
+      const inputContainer = document.getElementById('inputContainer')
+      const word = inputContainer.dataset.word
 
       // Membuat input
       const wordInputs = word
-        .split("")
-        .map((v) => `<input type="text" maxlength="1">`);
+        .split('')
+        .map((v) => `<input type="text" maxlength="1">`)
 
       wordInputs.map((input) => {
-        inputContainer.innerHTML += input;
-      });
+        inputContainer.innerHTML += input
+      })
 
       // Cek jawaban
-      const inputs = document.querySelectorAll("#inputContainer input");
+      const inputs = document.querySelectorAll('#inputContainer input')
       inputs.forEach((input, i) => {
         input.onkeyup = (e) => {
           // Backspace handling
-          if (e.keyCode === 8) return;
+          if (e.keyCode === 8) return
 
           // Check answer
-          answerCheck(input, i);
+          answerCheck(input, i)
 
           // Alert
-          alertMessage();
-        };
-      });
+          alertMessage()
+        }
+      })
 
       function answerCheck(input, i) {
-        const v = input.value.toLowerCase();
+        const v = input.value.toLowerCase()
 
         if (v.length > 1) {
-          input.value = v[0];
-          return;
+          input.value = v[0]
+          return
         }
 
         if (v === word[i].toLowerCase()) {
-          input.classList.add("correct");
+          input.classList.add('correct')
         } else if (v !== word[i] && word.includes(v)) {
-          input.classList.add("wrongPosition");
+          input.classList.add('wrongPosition')
         } else {
-          input.classList.add("wrong");
+          input.classList.add('wrong')
         }
 
         // Jika input telah diisi
-        input.setAttribute("disabled", "");
+        input.setAttribute('disabled', '')
 
         // Pindah ke input berikutnya
-        if (i !== inputs.length - 1) inputs[i + 1].focus();
+        if (i !== inputs.length - 1) inputs[i + 1].focus()
       }
 
       function alertMessage() {
-        const correctLength = document.getElementsByClassName("correct").length;
-        const wrongLength = document.getElementsByClassName("wrong").length;
-        const al = document.querySelector(".alert");
+        const correctLength = document.getElementsByClassName('correct').length
+        const wrongLength = document.getElementsByClassName('wrong').length
+        const al = document.querySelector('.alert')
 
-        al.style.display = "block";
-        al.style.color = "#44ff00";
+        al.style.display = 'block'
+        al.style.color = '#44ff00'
 
         if (correctLength > 0) {
-          al.innerHTML = "Benar!";
+          al.innerHTML = 'Benar!'
         }
 
         if (correctLength > 1) {
-          al.innerHTML = "Mantap!";
+          al.innerHTML = 'Mantap!'
         }
 
         if (correctLength >= Math.round(word.length / 2)) {
-          al.innerHTML = "Luar biasa!";
+          al.innerHTML = 'Luar biasa!'
         }
 
         if (correctLength === word.length) {
-          al.innerHTML = "Wow benar semua!";
+          al.innerHTML = 'Wow benar semua!'
         }
 
         if (wrongLength) {
-          al.style.color = "currentColor";
+          al.style.color = 'currentColor'
           al.innerHTML =
             wrongLength === word.length
-              ? "Yah.. salah semua :("
+              ? 'Yah.. salah semua :('
               : correctLength > 0
               ? `${correctLength} huruf benar, ${wrongLength} huruf salah.`
-              : `${wrongLength} huruf salah.`;
+              : `${wrongLength} huruf salah.`
         }
       }
 
       function log(n) {
-        console.log(n);
+        console.log(n)
       }
     </script>
   </body>
