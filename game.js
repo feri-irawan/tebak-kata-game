@@ -33,7 +33,7 @@ class TebakKata {
     this.countDownContainer = document.querySelector(countDownContainer)
     this.nextDelay = nextDelay
 
-    this.displayStartNum()
+    this.setStartNum()
     this.setKata()
     this.createClue()
     this.createInput()
@@ -44,7 +44,9 @@ class TebakKata {
   /**
    * Menampilkan nomor soal
    */
-  displayStartNum() {
+  setStartNum() {
+    if (!localStorage.getItem('startNum'))
+      localStorage.setItem('startNum', this.startNum)
     this.startNumContainer.innerHTML = '#' + (this.startNum + 1)
   }
 
@@ -288,7 +290,7 @@ class TebakKata {
   nextKata() {
     this.startNum++
 
-    this.displayStartNum()
+    this.setStartNum()
 
     const nextIndex = this.startNum
     const data = this.data
@@ -358,11 +360,10 @@ class TebakKata {
     )
   ).flat()
 
-  console.log(data)
-
   const params = new Proxy(new URLSearchParams(window.location.search), {
     get: (searchParams, prop) => searchParams.get(prop)
   })
+  console.log(localStorage.getItem('startNum'))
 
   const game = new TebakKata('#inputContainer', {
     data,
