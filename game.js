@@ -334,17 +334,25 @@ class TebakKata {
     }
   }
 
+  /**
+   * Coundown
+   */
   displayCountDown() {
     const countDownContainer = this.countDownContainer
+
+    // Tampilkan countDownContainer
     countDownContainer.style.display = 'flex'
 
+    // Koversi ms ke s
     let i = this.countDown / 1000
-    countDownContainer.innerHTML = i--
 
+    // Mengurangi detik
+    countDownContainer.innerHTML = i--
     const interval = setInterval(() => {
       countDownContainer.innerHTML = i--
     }, 1000)
 
+    // Stop countdown
     setTimeout(() => {
       countDownContainer.style.display = 'none'
       clearInterval(interval)
@@ -352,6 +360,7 @@ class TebakKata {
       // Jika query string tidak kosong (ada query start), aka hapus query string
       if (location.search.trim()) location.search = ''
 
+      // Reset nilai i ke awal
       i = this.countDown / 1000
     }, this.countDown)
   }
