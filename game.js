@@ -209,9 +209,11 @@ class TebakKata {
     const corrects = inputContainer.querySelectorAll('.correct').length
     const wrongs = inputContainer.querySelectorAll('.wrong').length
 
-    progressContainer.style.display = 'block'
+    // Jika ada yang benar atau salah maka tampilkan text progress
+    if (corrects || wrongs) progressContainer.style.display = 'block'
+    else progressContainer.style.display = 'none'
 
-    let message
+    let message = ''
 
     // Jika ada benar dan tidak ada salah
     if (corrects && !wrongs) {
@@ -317,6 +319,8 @@ class TebakKata {
         this.createInput()
         this.checkInputValue()
         this.healtsCheck()
+        this.progress()
+
         return
       }, this.nextDelay)
     }
