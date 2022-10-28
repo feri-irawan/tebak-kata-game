@@ -34,7 +34,7 @@ class TebakKata {
     this.nextDelay = nextDelay
 
     this.setStartNum()
-    this.setKata()
+    this.setData()
     this.createClue()
     this.createInput()
     this.checkInputValue()
@@ -62,7 +62,7 @@ class TebakKata {
   /**
    * Set soal
    */
-  setKata() {
+  setData() {
     const { clue, answer } = this.data[this.startNum]
 
     this.clue = clue
@@ -357,7 +357,7 @@ class TebakKata {
 
   // Fetcher
   const fetchKata = (level) =>
-    fetch(`./kata/${level}.json`)
+    fetch(`./data/${level}.json`)
       .then((res) => res.json())
       .catch(console.error)
 
