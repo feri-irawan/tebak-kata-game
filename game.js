@@ -298,9 +298,6 @@ class TebakKata {
    * @returns
    */
   nextKata() {
-    // Jika query string tidak kosong (ada query start), aka hapus query string
-    if (location.search.trim()) location.search = ''
-
     this.setStartNum(true)
 
     const nextIndex = this.startNum
@@ -351,6 +348,10 @@ class TebakKata {
     setTimeout(() => {
       countDownContainer.style.display = 'none'
       clearInterval(interval)
+
+      // Jika query string tidak kosong (ada query start), aka hapus query string
+      if (location.search.trim()) location.search = ''
+
       i = this.countDown / 1000
     }, this.countDown)
   }
