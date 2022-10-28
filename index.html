@@ -70,11 +70,21 @@
         margin-top: 2rem;
       }
 
+      #startNumContainer {
+        position: fixed;
+        top: 0;
+        left: 0;
+        font-size: 2rem;
+        color: #ffc107;
+        padding: 0.6rem 1rem;
+        z-index: -1;
+      }
+
       #healtsContainer {
         position: fixed;
         top: 0;
         right: 0;
-        padding: 1rem 1rem 0 0;
+        padding: 1rem;
       }
 
       #healtsContainer > span {
@@ -129,6 +139,7 @@
         <div id="progressContainer"></div>
       </main>
 
+      <div id="startNumContainer"></div>
       <div id="healtsContainer"></div>
     </div>
 

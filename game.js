@@ -2,7 +2,7 @@ class TebakKata {
   /**
    * Constructor
    * @param {string} inputContainer
-   * @param {{data: object[], healts: number, clueContainer: string, progressContainer: string, healtsContainer: string, startNum: number, countDown: number, countDownContainer: string, nextDelay: number}} options
+   * @param {{data: object[], healts: number, clueContainer: string, progressContainer: string, healtsContainer: string, startNum: number, startNumCountainer: string, countDown: number, countDownContainer: string, nextDelay: number}} options
    */
   constructor(
     inputContainer,
@@ -13,6 +13,7 @@ class TebakKata {
       progressContainer,
       healtsContainer,
       startNum,
+      startNumContainer,
       countDown,
       countDownContainer,
       nextDelay
@@ -27,15 +28,24 @@ class TebakKata {
     this.progressContainer = document.querySelector(progressContainer)
     this.healtsContainer = document.querySelector(healtsContainer)
     this.startNum = startNum - 1
+    this.startNumContainer = document.querySelector(startNumContainer)
     this.countDown = countDown
     this.countDownContainer = document.querySelector(countDownContainer)
     this.nextDelay = nextDelay
 
+    this.displayStartNum()
     this.setKata()
     this.createClue()
     this.createInput()
     this.checkInputValue()
     this.healtsCheck()
+  }
+
+  /**
+   * Menampilkan nomor soal
+   */
+  displayStartNum() {
+    this.startNumContainer.innerHTML = '#' + (this.startNum + 1)
   }
 
   /**
@@ -277,6 +287,9 @@ class TebakKata {
    */
   nextKata() {
     this.startNum++
+
+    this.displayStartNum()
+
     const nextIndex = this.startNum
     const data = this.data
 
@@ -329,6 +342,7 @@ class TebakKata {
 }
 
 // Init
+
 ;(async () => {
   const level = 1
   const data = await fetch(`./kata/${level}.json`).then((res) => res.json())
@@ -336,6 +350,7 @@ class TebakKata {
   const game = new TebakKata('#inputContainer', {
     data,
     startNum: 1,
+    startNumContainer: '#startNumContainer',
     clueContainer: '#clueContainer',
     healts: 3,
     healtsContainer: '#healtsContainer',
