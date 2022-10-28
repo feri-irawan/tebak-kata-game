@@ -342,14 +342,31 @@ class TebakKata {
 }
 
 // Init
-
 ;(async () => {
-  const level = 1
-  const data = await fetch(`./kata/${level}.json`).then((res) => res.json())
+  const levelLength = 5
+
+  const fetchKata = (level) =>
+    fetch(`./kata/${level}.json`)
+      .then((res) => res.json())
+      .catch(console.error)
+
+  const data = (
+    await Promise.all(
+      Array(levelLength)
+        .fill(0)
+        .map(async (_, i) => await fetchKata(i + 1))
+    )
+  ).flat()
+
+  console.log(data)
+
+  const params = new Proxy(new URLSearchParams(window.location.search), {
+    get: (searchParams, prop) => searchParams.get(prop)
+  })
 
   const game = new TebakKata('#inputContainer', {
     data,
-    startNum: 1,
+    startNum: params?.start || 1,
     startNumContainer: '#startNumContainer',
     clueContainer: '#clueContainer',
     healts: 3,
