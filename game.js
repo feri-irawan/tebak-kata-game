@@ -57,9 +57,6 @@ class TebakKata {
       this.startNum++
       localStorage.setItem('startNum', this.startNum)
     }
-
-    // Tampilkan startNum ke element
-    this.startNumContainer.innerHTML = `${this.levelNum}#${this.startNum + 1}`
   }
 
   /**
@@ -71,6 +68,9 @@ class TebakKata {
     this.levelNum = level
     this.clue = clue
     this.answer = answer
+
+    // Tampilkan startNum ke element
+    this.startNumContainer.innerHTML = `${this.levelNum}#${this.startNum + 1}`
   }
 
   /**
@@ -311,19 +311,6 @@ class TebakKata {
     if (nextIndex < data.length) {
       setTimeout(() => {
         this.displayCountDown()
-
-        const result = data[nextIndex]
-
-        this.clue = result.clue
-        this.answer = result.answer
-
-        this.createClue()
-        this.createInput()
-        this.checkInputValue()
-        this.healtsCheck()
-        this.progress()
-
-        return
       }, this.nextDelay)
     }
 
@@ -356,8 +343,18 @@ class TebakKata {
 
     // Stop countdown
     setTimeout(() => {
-      countDownContainer.style.display = 'none'
+      // Set ulang data
+      this.setData()
+      this.createClue()
+      this.createInput()
+      this.checkInputValue()
+      this.healtsCheck()
+      this.progress()
+
+      // Hentikan countdown
       clearInterval(interval)
+      // Sembunyikan countdown
+      countDownContainer.style.display = 'none'
 
       // Jika query string tidak kosong (ada query start), aka hapus query string
       const url = new URL(window.location.href)
