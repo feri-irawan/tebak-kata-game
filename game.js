@@ -374,7 +374,7 @@ class TebakKata {
 // Init
 ;(async () => {
   // Jumlah level yang akan di fetch
-  const levelLength = 15
+  const levelLength = 40
 
   // Fetcher
   const fetchKata = (level) =>
