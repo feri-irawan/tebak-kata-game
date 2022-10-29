@@ -28,6 +28,7 @@ class TebakKata {
     this.healts = healts
     this.progressContainer = document.querySelector(progressContainer)
     this.healtsContainer = document.querySelector(healtsContainer)
+    this.levelNum = 1
     this.startNum = startNum
     this.startNumContainer = document.querySelector(startNumContainer)
     this.countDown = countDown
@@ -58,15 +59,16 @@ class TebakKata {
     }
 
     // Tampilkan startNum ke element
-    this.startNumContainer.innerHTML = '#' + (this.startNum + 1)
+    this.startNumContainer.innerHTML = `${this.levelNum}#${this.startNum + 1}`
   }
 
   /**
    * Set soal
    */
   setData() {
-    const { clue, answer } = this.data[this.startNum]
+    const { clue, answer, level } = this.data[this.startNum]
 
+    this.levelNum = level
     this.clue = clue
     this.answer = answer
   }
@@ -380,7 +382,9 @@ class TebakKata {
   // Fetcher
   const fetchKata = (level) =>
     fetch(`./data/${level}.json`)
-      .then((res) => res.json())
+      .then(async (res) =>
+        (await res.json()).map(({ clue, answer }) => ({ level, clue, answer }))
+      )
       .catch(console.error)
 
   // Mapping data
